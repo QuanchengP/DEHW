@@ -5,7 +5,8 @@ In case of any problem in code compilation or execution, please feel free to con
 
 1.Platform: Cygwin on Windows or Linux (only one of them is needed)
 > + Cygwin link: <https://www.cygwin.com/>
-> + WSL link: <https://learn.microsoft.com/zh-cn/windows/wsl/basic-commands>
+> + WSL link: <https://learn.microsoft.com/en-us/windows/wsl/install>
+>   + or: <https://learn.microsoft.com/zh-cn/windows/wsl/basic-commands>
 
 2.Prerequisite package: make, g++
 
