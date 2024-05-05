@@ -21,7 +21,8 @@ In case of any problem in code compilation or execution, please feel free to con
 > + For Cygwin: the variables “INCL, LIB” in “makefile” need to be modified to specify the directory of prerequisite library.
 > + For Linux: the variables “INCL1, INCL2 INCL3, LIB1, LIB2” in “makefile” need to be modified to specify the directory of prerequisite library.
 
-5.Execution: the minimum required RAM is 64GB
+5.Execution: $ ./Test.exe
+> + The minimum required RAM is 64GB.
 > + The Cygwin supports execution of all numerical examples, whereas the efficiency is slow at several numerical examples because of the adoption of IncompleteLUT preconditioner of BiCGSTAB in Eigen. The efficiency is improved by KSPBICG in PETSc.
 > + The 23/40-th step of I/R/F2/T1/C1, the 24/40-th step of III/R/F2/T1/C1 encounter nonconvergence of active set strategy.
 
