@@ -1,7 +1,7 @@
 # DEHW
 Design and analysis of double-enveloping hourglass worm (DEHW) drive with planar generatrix. Some adopted approaches are interval Newton method, virtual element method, dual mortar method, et al.
 
-In case of any problem in code compilation or execution, please feel free to contact us by email or other available communications.
+In case of any problem in code compilation or execution, please feel free to contact us by email (QuanchengPeng@sylu.edu.cn) or other available communications.
 
 1.Platform: Cygwin on Windows or Linux (only one of them is needed)
 > + Cygwin link: <https://www.cygwin.com/>
