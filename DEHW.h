@@ -660,7 +660,8 @@ long DEHW::ICLOSE(double thet_h, ofstream &tempOfst){
 		Vector3d r_2_2;
 		WHEE_1H2R(x_d, y_d, thet_1, thet_h, r_2_2);
 		tempOfst<<setw(30)<<r_2_2(0)
-			<<setw(30)<<r_2_2(1)<<setw(30)<<r_2_2(2)<<endl;
+			<<setw(30)<<r_2_2(1)<<setw(30)<<r_2_2(2)
+			<<setw(30)<<thet_h<<setw(30)<<thet_c<<endl;
 	}
 	tempOfst<<"@"<<endl;
 	return 1;
@@ -1019,28 +1020,28 @@ long DEHW::SINGULAR_H2C(double thet_h, double &thet_cmini, double &thet_cmaxi){
 	double thet_cL = 0.0;
 	double thet_cH = PI / 2.0;
 	while(thet_cH - thet_cL > 1.0E-12){
-		thet_cmini = (thet_cH + thet_cL) / 2.0;
-		double thet_hs, thet_hm;
-		SINGULAR_C2H(thet_cmini, thet_hs, thet_hm);
-		if(thet_hs < thet_h){
-			thet_cL = thet_cmini;
-		}
-		else{
-			thet_cH = thet_cmini;
-		}
-	}
-	thet_cL = 0.0;
-	thet_cH = PI / 2.0;
-	while(thet_cH - thet_cL > 1.0E-12){
 		thet_cmaxi = (thet_cH + thet_cL) / 2.0;
 		double thet_hs, thet_hm;
 		SINGULAR_C2H(thet_cmaxi, thet_hs, thet_hm);
-		thet_hs = thet_hs + 2.0 * PI;
 		if(thet_hs < thet_h){
 			thet_cL = thet_cmaxi;
 		}
 		else{
 			thet_cH = thet_cmaxi;
+		}
+	}
+	thet_cL = 0.0;
+	thet_cH = PI / 2.0;
+	while(thet_cH - thet_cL > 1.0E-12){
+		thet_cmini = (thet_cH + thet_cL) / 2.0;
+		double thet_hs, thet_hm;
+		SINGULAR_C2H(thet_cmini, thet_hs, thet_hm);
+		thet_hs = thet_hs + 2.0 * PI;
+		if(thet_hs < thet_h){
+			thet_cL = thet_cmini;
+		}
+		else{
+			thet_cH = thet_cmini;
 		}
 	}
 	
