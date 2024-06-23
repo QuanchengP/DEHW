@@ -2755,7 +2755,6 @@ long DEHW::NEW_CONT_ZONE(long f_lr){
 	//closest point
 	double miniDist = 1.0E20;
 	list<INDE_INIT> breaList;
-	MatrixXi F_sear = MatrixXi::Zero(curvCoor(1).rows(), curvCoor(1).cols());
 	for(long ti = 0; ti < curvCoor(1).rows() - 1; ti ++){
 		for(long tj = 0; tj < curvCoor(1).cols() - 1; tj ++){
 			double epsl_x = (curvCoor(1)(ti,tj)(0) - curvCoor(1)(ti+1,tj)(0)) / 4.0;
@@ -2765,13 +2764,9 @@ long DEHW::NEW_CONT_ZONE(long f_lr){
 				curvCoor(1)(ti,tj)(1) - epsl_y <= radi_fi && 
 				radi_fi <= curvCoor(1)(ti,tj+1)(1) + epsl_y){
 				breaList.push_back(INDE_INIT(ti, tj, thet_c, thet_h));
-				F_sear(ti, tj) = 1;
 				breaList.push_back(INDE_INIT(ti + 1, tj, thet_c, thet_h));
-				F_sear(ti + 1, tj) = 1;
 				breaList.push_back(INDE_INIT(ti, tj + 1, thet_c, thet_h));
-				F_sear(ti, tj + 1) = 1;
 				breaList.push_back(INDE_INIT(ti + 1, tj + 1, thet_c, thet_h));
-				F_sear(ti + 1, tj + 1) = 1;
 			}
 			double dist_ij = radi_fi * abs(angl_fi - curvCoor(1)(ti,tj)(0)) 
 				+ abs(radi_fi - curvCoor(1)(ti,tj)(1));
@@ -2785,10 +2780,13 @@ long DEHW::NEW_CONT_ZONE(long f_lr){
 	//breadth-first search
 	double epsl_d = 1.0E-9;
 	long coun_w = 0;
+	MatrixXi F_sear = MatrixXi::Zero(curvCoor(1).rows(), curvCoor(1).cols());
 	while(!breaList.empty()){
 		INDE_INIT temp_ij = breaList.front();
 		breaList.pop_front();
-		F_sear(temp_ij.ti, temp_ij.tj) = 2;
+		if(F_sear(temp_ij.ti, temp_ij.tj) == 1){
+			continue;
+		}
 		//
 		double x_d, y_d;
 		WHEE_CURV_2_CART_1(curvCoor(1)(temp_ij.ti, temp_ij.tj)(0), 
@@ -2800,6 +2798,7 @@ long DEHW::NEW_CONT_ZONE(long f_lr){
 			radi_fi * abs(angl_fi - curvCoor(1)(temp_ij.ti, temp_ij.tj)(0)) 
 			+ abs(radi_fi - curvCoor(1)(temp_ij.ti, temp_ij.tj)(1));
 		if(dist_ij < epsl_d){
+			F_sear(temp_ij.ti, temp_ij.tj) = 1;
 			//
 			thet_c = temp_ij.init_1;
 			double thet_1 = i_1c * thet_c;
@@ -2836,7 +2835,6 @@ long DEHW::NEW_CONT_ZONE(long f_lr){
 				if(inde(ti,0) >= 0 && inde(ti,1) >= 0 
 					&& inde(ti,0) < curvCoor(1).rows() && inde(ti,1) < curvCoor(1).cols() 
 					&& F_sear(inde(ti,0), inde(ti,1)) == 0){
-					F_sear(inde(ti,0), inde(ti,1)) = 1;
 					breaList.push_back(INDE_INIT(inde(ti,0), inde(ti,1), 
 						temp_ij.init_1, temp_ij.init_2));
 				}
@@ -2883,7 +2881,6 @@ long DEHW::FORMER_CONT_ZONE(){
 	//closest point
 	double miniDist = 1.0E20;
 	list<INDE_INIT> breaList;
-	MatrixXi F_sear = MatrixXi::Zero(curvCoor(1).rows(), curvCoor(1).cols());
 	for(long ti = 0; ti < curvCoor(1).rows() - 1; ti ++){
 		for(long tj = 0; tj < curvCoor(1).cols() - 1; tj ++){
 			double epsl_x = (curvCoor(1)(ti,tj)(0) - curvCoor(1)(ti+1,tj)(0)) / 4.0;
@@ -2893,13 +2890,9 @@ long DEHW::FORMER_CONT_ZONE(){
 				curvCoor(1)(ti,tj)(1) - epsl_y <= radi_fi && 
 				radi_fi <= curvCoor(1)(ti,tj+1)(1) + epsl_y){
 				breaList.push_back(INDE_INIT(ti, tj, thet_c, x_d));
-				F_sear(ti, tj) = 1;
 				breaList.push_back(INDE_INIT(ti + 1, tj, thet_c, x_d));
-				F_sear(ti + 1, tj) = 1;
 				breaList.push_back(INDE_INIT(ti, tj + 1, thet_c, x_d));
-				F_sear(ti, tj + 1) = 1;
 				breaList.push_back(INDE_INIT(ti + 1, tj + 1, thet_c, x_d));
-				F_sear(ti + 1, tj + 1) = 1;
 			}
 			double dist_ij = radi_fi * abs(angl_fi - curvCoor(1)(ti,tj)(0)) 
 				+ abs(radi_fi - curvCoor(1)(ti,tj)(1));
@@ -2913,10 +2906,13 @@ long DEHW::FORMER_CONT_ZONE(){
 	//breadth-first search
 	double epsl_d = 1.0E-9;
 	long coun_w = 0;
+	MatrixXi F_sear = MatrixXi::Zero(curvCoor(1).rows(), curvCoor(1).cols());
 	while(!breaList.empty()){
 		INDE_INIT temp_ij = breaList.front();
 		breaList.pop_front();
-		F_sear(temp_ij.ti, temp_ij.tj) = 2;
+		if(F_sear(temp_ij.ti, temp_ij.tj) == 1){
+			continue;
+		}
 		//
 		double y_d;
 		WHEE_CURV_2_CART_2(curvCoor(1)(temp_ij.ti, temp_ij.tj)(0), 
@@ -2928,6 +2924,7 @@ long DEHW::FORMER_CONT_ZONE(){
 			radi_fi * abs(angl_fi - curvCoor(1)(temp_ij.ti, temp_ij.tj)(0)) 
 			+ abs(radi_fi - curvCoor(1)(temp_ij.ti, temp_ij.tj)(1));
 		if(dist_ij < epsl_d){
+			F_sear(temp_ij.ti, temp_ij.tj) = 1;
 			//
 			thet_c = temp_ij.init_1;
 			double thet_1 = i_1c * thet_c;
@@ -2963,7 +2960,6 @@ long DEHW::FORMER_CONT_ZONE(){
 				if(inde(ti,0) >= 0 && inde(ti,1) >= 0 
 					&& inde(ti,0) < curvCoor(1).rows() && inde(ti,1) < curvCoor(1).cols() 
 					&& F_sear(inde(ti,0), inde(ti,1)) == 0){
-					F_sear(inde(ti,0), inde(ti,1)) = 1;
 					breaList.push_back(INDE_INIT(inde(ti,0), inde(ti,1), 
 						temp_ij.init_1, temp_ij.init_2));
 				}
@@ -3012,7 +3008,6 @@ long DEHW::TRANSITION_ZONE(long f_hr){
 	//closest point
 	double miniDist = 1.0E20;
 	list<INDE_INIT> breaList;
-	MatrixXi F_sear = MatrixXi::Zero(curvCoor(1).rows(), curvCoor(1).cols());
 	for(long ti = 0; ti < curvCoor(1).rows() - 1; ti ++){
 		for(long tj = 0; tj < curvCoor(1).cols() - 1; tj ++){
 			double epsl_x = (curvCoor(1)(ti,tj)(0) - curvCoor(1)(ti+1,tj)(0)) / 4.0;
@@ -3022,13 +3017,9 @@ long DEHW::TRANSITION_ZONE(long f_hr){
 				curvCoor(1)(ti,tj)(1) - epsl_y <= radi_fi && 
 				radi_fi <= curvCoor(1)(ti,tj+1)(1) + epsl_y){
 				breaList.push_back(INDE_INIT(ti, tj, thet_c, thet_h));
-				F_sear(ti, tj) = 1;
 				breaList.push_back(INDE_INIT(ti + 1, tj, thet_c, thet_h));
-				F_sear(ti + 1, tj) = 1;
 				breaList.push_back(INDE_INIT(ti, tj + 1, thet_c, thet_h));
-				F_sear(ti, tj + 1) = 1;
 				breaList.push_back(INDE_INIT(ti + 1, tj + 1, thet_c, thet_h));
-				F_sear(ti + 1, tj + 1) = 1;
 			}
 			double dist_ij = radi_fi * abs(angl_fi - curvCoor(1)(ti,tj)(0)) 
 				+ abs(radi_fi - curvCoor(1)(ti,tj)(1));
@@ -3042,10 +3033,13 @@ long DEHW::TRANSITION_ZONE(long f_hr){
 	//breadth-first search
 	double epsl_d = 1.0E-9;
 	long coun_w = 0;
+	MatrixXi F_sear = MatrixXi::Zero(curvCoor(1).rows(), curvCoor(1).cols());
 	while(!breaList.empty()){
 		INDE_INIT temp_ij = breaList.front();
 		breaList.pop_front();
-		F_sear(temp_ij.ti, temp_ij.tj) = 2;
+		if(F_sear(temp_ij.ti, temp_ij.tj) == 1){
+			continue;
+		}
 		//
 		WHEE_CURV_2_CART_3(curvCoor(1)(temp_ij.ti, temp_ij.tj)(0), 
 			curvCoor(1)(temp_ij.ti, temp_ij.tj)(1), 
@@ -3056,6 +3050,7 @@ long DEHW::TRANSITION_ZONE(long f_hr){
 			radi_fi * abs(angl_fi - curvCoor(1)(temp_ij.ti, temp_ij.tj)(0)) 
 			+ abs(radi_fi - curvCoor(1)(temp_ij.ti, temp_ij.tj)(1));
 		if(dist_ij < epsl_d){
+			F_sear(temp_ij.ti, temp_ij.tj) = 1;
 			WHEE_PHAS(temp_ij.ti, temp_ij.tj, 3 + f_hr, r_2_2);
 			Matrix<long,8,2> inde;
 			inde << temp_ij.ti - 1, temp_ij.tj - 1, 
@@ -3070,7 +3065,6 @@ long DEHW::TRANSITION_ZONE(long f_hr){
 				if(inde(ti,0) >= 0 && inde(ti,1) >= 0 
 					&& inde(ti,0) < curvCoor(1).rows() && inde(ti,1) < curvCoor(1).cols() 
 					&& F_sear(inde(ti,0), inde(ti,1)) == 0){
-					F_sear(inde(ti,0), inde(ti,1)) = 1;
 					breaList.push_back(INDE_INIT(inde(ti,0), inde(ti,1), 
 						temp_ij.init_1, temp_ij.init_2));
 				}
