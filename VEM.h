@@ -1554,7 +1554,7 @@ bool VEM::CONSTRAINT(const vector<long> & consFree){
 	for(long ti = 1; ti < 3 * nodeCoor.rows(); ti ++){
 		consDOF(ti) = consDOF(ti-1) + consFlag(ti-1);
 	}
-	for(long ti = 1; ti < 3 * nodeCoor.rows(); ti ++){
+	for(long ti = 0; ti < 3 * nodeCoor.rows(); ti ++){
 		if(consFlag(ti) == 0){
 			consDOF(ti) = -1;
 		}
