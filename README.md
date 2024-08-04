@@ -1,4 +1,6 @@
 # DEHW
+This project is attached to the article at https://www.nature.com/articles/s41598-024-68556-8. The DOI of the article is https://doi.org/10.1038/s41598-024-68556-8. A Springer Nature SharedIt link is https://rdcu.be/dPScF.
+
 Design and analysis of double-enveloping hourglass worm (DEHW) drive with planar generatrix. Some adopted approaches are interval Newton method, virtual element method, dual mortar method, et al.
 
 In case of any problem in code compilation or execution, please feel free to contact us by email (QuanchengPeng@sylu.edu.cn) or other available communications.
