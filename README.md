@@ -30,3 +30,6 @@ In case of any problem in code compilation or execution, please feel free to con
 
 6.Postprocess:
 > + Run the .m scripts in "Postprocess.m" by MATLAB.
+
+7.Bugs
+> + Contact patch test of two blocks: the displacement constraint of line X=−15mm/Y=−15mm only includes X direction and lacks Y direction. (influence on result is not very obvious)
