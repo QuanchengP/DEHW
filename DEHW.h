@@ -3332,10 +3332,10 @@ long DEHW::WORM_GRID(){
 		for(long tj = 0; tj <= gridNumb(0,2); tj ++){
 			for(long tk = 0; tk <= gridNumb(0,0) / 2; tk ++){
 				Matrix<double,3,2> downUp;
-				downUp.block(0,0,3,1) << 
+				downUp.block(0,0,3,1) = 
 					(1.0 - (double)tk / (gridNumb(0,0) / 2.0)) * lineCoor.block(0,0,3,1).eval() 
 					+ (double)tk / (gridNumb(0,0)/2.0) * lineCoor.block(0,1,3,1).eval();
-				downUp.block(0,1,3,1) << rootProf_2.block(0,gridNumb(0,0) / 2 - tk,3,1);
+				downUp.block(0,1,3,1) = rootProf_2.block(0,gridNumb(0,0) / 2 - tk,3,1);
 				Vector3d tempMatr = 
 					(1.0 - (double)tj / gridNumb(0,2)) * downUp.block(0,0,3,1).eval() 
 					+ (double)tj / gridNumb(0,2) * downUp.block(0,1,3,1).eval();
